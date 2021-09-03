@@ -3,7 +3,7 @@ FROM python:latest
 ENV STRONGSWAN_VERSION="5.9.3"
 ENV DEBIAN_FRONTEND=noninteractive
 ARG BUILD_OPTIONS=""
-ARG DEV_PACKAGES="bzip2 make gcc libcurl4-openssl-dev libgmp-dev libssl-dev"
+ARG DEV_PACKAGES="bzip2 make gcc libcurl4-openssl-dev libgmp-dev libssl-dev rustc"
 
 # Update image and install additional packages
 # -----------------------------------------------------------------------------
