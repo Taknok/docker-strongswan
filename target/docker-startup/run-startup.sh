@@ -6,7 +6,7 @@ SCRIPT_DIRECTORY_PATH=$(dirname "$SCRIPT_PATH")
 
 # call startup scripts
 for script_dir in `find "$SCRIPT_DIRECTORY_PATH" -type d -iname "*.startup" | sort -f`; do
-    script="$script_dir/startup"
+    script="$script_dir/startup.py"
     if [ -f "$script" ]; then
         chmod ug+x "$script"
         "$script" "$@"
