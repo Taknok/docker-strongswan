@@ -3,15 +3,15 @@ FROM python:latest
 ENV STRONGSWAN_VERSION="5.9.3"
 ENV DEBIAN_FRONTEND=noninteractive
 ARG BUILD_OPTIONS=""
+ARG DEV_PACKAGES="bzip2 make gcc libcurl4-openssl-dev libgmp-dev libssl-dev"
 
 # Update image and install additional packages
 # -----------------------------------------------------------------------------
 RUN \
   # install packages
-  DEV_PACKAGES="bzip2 make gcc libcurl4-openssl-dev libgmp-dev libssl-dev" && \
   apt-get -y update && \
   apt-get -y install \
-    supervisor\
+    supervisor \
     bind9 \
     libcurl4 libgmp10 \
     # libssl1.0.0 \
@@ -26,17 +26,23 @@ RUN \
   cd strongswan-$STRONGSWAN_VERSION && \
   ./configure --prefix=/usr --sysconfdir=/etc --enable-af-alg --enable-ccm --enable-curl --enable-eap-dynamic --enable-eap-identity --enable-eap-tls --enable-files --enable-gcm --enable-openssl $BUILD_OPTIONS && \
   make all && make install && \
-  cd / && rm -R /strongswan-build && \
-  \
-  # clean up
-  apt-get -y remove $DEV_PACKAGES && \
-  apt-get -y autoremove && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  cd / && rm -R /strongswan-build
+
 
 # Copy prepared files into the image
 # -----------------------------------------------------------------------------
 COPY target /
+
+# Install python packages
+# -----------------------------------------------------------------------------
+RUN pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.txt
+
+# Clean up
+# -----------------------------------------------------------------------------
+RUN apt-get -y remove $DEV_PACKAGES && \
+  apt-get -y autoremove && \
+  apt-get clean && \
+  rm -rf /var/lib/apt/lists/*
 
 # Adjust permissions of copied files
 # -----------------------------------------------------------------------------
