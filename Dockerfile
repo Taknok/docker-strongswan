@@ -11,6 +11,7 @@ RUN \
   # install packages
   apt-get -y update && \
   apt-get -y install \
+    iptables \
     supervisor \
     bind9 \
     libcurl4 libgmp10 \
