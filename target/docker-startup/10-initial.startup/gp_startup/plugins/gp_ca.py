@@ -588,7 +588,7 @@ class CertificateAuthority:
         builder = builder.issuer_name(ca_subject)
         builder = builder.last_update(datetime.utcnow())
         builder = builder.next_update(datetime.utcnow() + ten_years)
-        builder = builder.add_extension(x509.AuthorityKeyIdentifier.from_issuer_subject_key_identifier(ski), False)
+        builder = builder.add_extension(x509.AuthorityKeyIdentifier.from_issuer_subject_key_identifier(ski.value), False)
         ca_crl  = builder.sign(private_key = ca_key, algorithm=hash, backend=default_backend())
 
         # write everything to disk
@@ -776,7 +776,7 @@ class CertificateAuthority:
         new_crl = new_crl.issuer_name(old_crl.issuer)
         new_crl = new_crl.last_update(datetime.utcnow())
         new_crl = new_crl.next_update(datetime.utcnow() + timedelta(10*365,0,0))
-        new_crl = new_crl.add_extension(x509.AuthorityKeyIdentifier.from_issuer_subject_key_identifier(ski), False)
+        new_crl = new_crl.add_extension(x509.AuthorityKeyIdentifier.from_issuer_subject_key_identifier(ski.value), False)
         for revoked_cert in old_crl: new_crl = new_crl.add_revoked_certificate(revoked_cert)
         revoked_cert = x509.RevokedCertificateBuilder()
         revoked_cert = revoked_cert.serial_number(serial_number)
@@ -829,7 +829,7 @@ class CertificateAuthority:
         new_crl = new_crl.issuer_name(old_crl.issuer)
         new_crl = new_crl.last_update(datetime.utcnow())
         new_crl = new_crl.next_update(datetime.utcnow() + timedelta(10*365,0,0))
-        new_crl = new_crl.add_extension(x509.AuthorityKeyIdentifier.from_issuer_subject_key_identifier(ski), False)
+        new_crl = new_crl.add_extension(x509.AuthorityKeyIdentifier.from_issuer_subject_key_identifier(ski.value), False)
 
         # copy all revoked certificates except the one to remove into the new CRL
         removed = False
