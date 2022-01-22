@@ -66,7 +66,7 @@ VOLUME [ "/data" ]
 # 500/udp  - Internet Key Exchange (IKE)
 # 4500/udp - NAT Traversal
 # -----------------------------------------------------------------------------
-EXPOSE 500 4500
+EXPOSE 500/udp 4500/udp
 
 ENTRYPOINT ["/entrypoint.sh"]
 CMD ["run"]
