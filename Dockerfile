@@ -16,7 +16,7 @@ RUN \
     bind9 \
     libcurl4 libgmp10 \
     # libssl1.0.0 \
-    module-init-tools \
+    kmod \
     $DEV_PACKAGES && \
   \
   # download and build strongswan source code
