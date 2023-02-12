@@ -69,6 +69,23 @@ connections {
             }
         }
     }
+
+    IKEv2-EAP-MSCHAPV2 : connection-defaults {
+        send_certreq = no
+        local {
+            auth = pubkey
+            certs = ${server_cert_path}
+            id = ${vpn_hostnames[0]}
+        }
+        remote {
+            auth = eap-mschapv2
+            eap_id = %any
+        }
+        children {
+            ikev2-eap-tls : child-defaults {
+            }
+        }
+    }
 }
 
 pools {
@@ -86,5 +103,12 @@ authorities {
     local-ca {
         file = /data/internal_ca/ca-cert.pem
         crl_uris = file:///data/internal_ca/ca-crl.pem
+    }
+}
+
+secrets {
+    eap-user {
+      id = user
+      secret = password
     }
 }
