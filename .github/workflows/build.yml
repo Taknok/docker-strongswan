@@ -3,7 +3,7 @@ name: Multi Arch Builder
 on:
   push:
     branches:
-      - 'main'
+      - 'master'
   workflow_dispatch:
 
 jobs:
