@@ -1,0 +1,49 @@
+name: Multi Arch Builder
+
+on:
+  push:
+    branches:
+      - 'master'
+  workflow_dispatch:
+
+jobs:
+  docker:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout base/supervisor and current repo
+      - name: Checkout Base/Supervisor
+        uses: actions/checkout@v3
+        with:
+          repository: GriffinPlus/docker-base
+          path: base
+      - name: Checkout Current repo
+        uses: actions/checkout@v3
+        with:
+          path: repo
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+      - name: Build Base
+        uses: docker/build-push-action@v4
+        with:
+          context: base/base
+          push: false
+          tags: griffinplus/base:latest
+      - name: Build Supervisor
+        uses: docker/build-push-action@v4
+        with:
+          context: base/base-supervisor
+          push: false
+          tags: griffinplus/base-supervisor:latest
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push Strongswan
+        uses: docker/build-push-action@v4
+        with:
+          context: repo
+          push: true
+          tags: Taknok/strongswan:latest
