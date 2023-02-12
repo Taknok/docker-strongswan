@@ -46,4 +46,4 @@ jobs:
         with:
           context: repo
           push: true
-          tags: Taknok/strongswan:latest
+          tags: taknok/strongswan:latest
