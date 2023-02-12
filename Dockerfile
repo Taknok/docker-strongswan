@@ -1,9 +1,7 @@
 FROM python:latest
 
-ENV STRONGSWAN_VERSION="5.9.3"
 ENV DEBIAN_FRONTEND=noninteractive
 ARG BUILD_OPTIONS=""
-ARG DEV_PACKAGES="bzip2 make gcc libcurl4-openssl-dev libgmp-dev libssl-dev rustc"
 
 # Update image and install additional packages
 # -----------------------------------------------------------------------------
@@ -14,15 +12,11 @@ RUN \
     iptables \
     supervisor \
     bind9 \
-    libcurl4 libgmp10 libssl1.0.0 \
-    module-init-tools \
+    libcurl4 libgmp10 \
+    # libssl1.0.0 \
+    kmod \
     strongswan \
     strongswan-swanctl
-  \
-  # clean up
-  apt-get -y autoremove && \
-  apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
 
 # Copy prepared files into the image
 # -----------------------------------------------------------------------------
@@ -34,8 +28,7 @@ RUN pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.tx
 
 # Clean up
 # -----------------------------------------------------------------------------
-RUN apt-get -y remove $DEV_PACKAGES && \
-  apt-get -y autoremove && \
+RUN apt-get -y autoremove && \
   apt-get clean && \
   rm -rf /var/lib/apt/lists/*
 
