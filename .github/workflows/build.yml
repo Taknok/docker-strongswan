@@ -19,8 +19,6 @@ jobs:
       - name: Set up QEMU
         id: qemu
         uses: docker/setup-qemu-action@v2
-        with:
-          platforms: ${{ env.ARCHS }}
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
