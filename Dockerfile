@@ -24,8 +24,8 @@ COPY target /
 
 # Install python packages
 # -----------------------------------------------------------------------------
-RUN --mount=type=tmpfs,target=/root/.cargo curl https://sh.rustup.rs -sSf | bash -s -- -y && pip install cryptography~=3.4
-RUN pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.txt
+RUN --mount=type=tmpfs,target=/root/.cargo curl https://sh.rustup.rs -sSf | bash -s -- -y && \
+    pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.txt
 
 # Clean up
 # -----------------------------------------------------------------------------
