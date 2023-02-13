@@ -1,4 +1,4 @@
-name: "deb: build"
+name: "dev: build"
 
 on:
   push:
