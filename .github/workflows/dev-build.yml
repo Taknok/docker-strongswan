@@ -1,9 +1,9 @@
-name: Build and push main
+name: "deb: build"
 
 on:
   push:
     branches:
-      - 'main'
+      - 'dev'
   workflow_dispatch:
 
 env:
@@ -34,6 +34,6 @@ jobs:
       - name: Build and push docker strongswan
         uses: docker/build-push-action@v4
         with:
-          push: true
+          push: false
           tags: taknok/strongswan:latest
           platforms: ${{ env.ARCHS }}
