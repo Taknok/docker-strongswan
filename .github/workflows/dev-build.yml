@@ -1,13 +1,13 @@
-name: Build and push main
+name: "dev: build"
 
 on:
   push:
     branches:
-      - 'main'
+      - 'dev'
   workflow_dispatch:
 
 env:
-  ARCHS: "linux/amd64,linux/arm64,linux/arm/v7,linux/arm/v6"
+  ARCHS: "linux/amd64,linux/arm64"
 
 jobs:
   buildx:
@@ -34,6 +34,6 @@ jobs:
       - name: Build and push docker strongswan
         uses: docker/build-push-action@v4
         with:
-          push: true
+          push: false
           tags: taknok/strongswan:latest
           platforms: ${{ env.ARCHS }}
