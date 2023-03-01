@@ -11,6 +11,7 @@ RUN \
   # install packages py cryptography dep and strongswan dep
   apt-get -y update && \
   apt-get -y install \
+    git \
     python3 \
     python3-pip \
     build-essential \
