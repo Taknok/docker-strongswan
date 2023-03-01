@@ -11,7 +11,7 @@ RUN \
   apt-get -y install \
     build-essential \
     curl \
-    libffi-dev
+    libffi-dev \
     iptables \
     supervisor \
     bind9 \
