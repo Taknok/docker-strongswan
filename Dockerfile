@@ -1,6 +1,8 @@
 FROM debian:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+ENV CARGO_HTTP_MULTIPLEXING=false
 ARG BUILD_OPTIONS=""
 
 # Update image and install additional packages
