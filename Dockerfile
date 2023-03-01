@@ -1,4 +1,4 @@
-FROM python:latest
+FROM debian:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
 ARG BUILD_OPTIONS=""
@@ -6,14 +6,16 @@ ARG BUILD_OPTIONS=""
 # Update image and install additional packages
 # -----------------------------------------------------------------------------
 RUN \
-  # install packages
+  # install packages py cryptography dep and strongswan dep
   apt-get -y update && \
   apt-get -y install \
+    build-essential \
+    curl \
+    libffi-dev
     iptables \
     supervisor \
     bind9 \
     libcurl4 libgmp10 \
-    # libssl1.0.0 \
     kmod \
     strongswan \
     strongswan-swanctl
@@ -30,7 +32,9 @@ RUN pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.tx
 # -----------------------------------------------------------------------------
 RUN apt-get -y autoremove && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* && \
+  pip cache remove * && \
+  pip cache purge
 
 # Adjust permissions of copied files
 # -----------------------------------------------------------------------------
