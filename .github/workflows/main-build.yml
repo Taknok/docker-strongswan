@@ -36,4 +36,5 @@ jobs:
         with:
           push: true
           tags: taknok/strongswan:latest
+          provenance: false # https://github.com/docker/buildx/issues/1509
           platforms: ${{ env.ARCHS }}

@@ -1,19 +1,30 @@
-FROM python:latest
+FROM debian:latest
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV CARGO_NET_GIT_FETCH_WITH_CLI=true
+ENV CARGO_HTTP_MULTIPLEXING=false
 ARG BUILD_OPTIONS=""
 
 # Update image and install additional packages
 # -----------------------------------------------------------------------------
 RUN \
-  # install packages
+  # install packages py cryptography dep and strongswan dep
   apt-get -y update && \
   apt-get -y install \
+    git \
+    python3 \
+    python3-pip \
+    build-essential \
+    curl \
+    libssl-dev \
+    libffi-dev \
+    python3-dev \
+    cargo \
+    pkg-config \
     iptables \
     supervisor \
     bind9 \
     libcurl4 libgmp10 \
-    # libssl1.0.0 \
     kmod \
     strongswan \
     strongswan-swanctl
@@ -30,7 +41,8 @@ RUN pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.tx
 # -----------------------------------------------------------------------------
 RUN apt-get -y autoremove && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* && \
+  rm -Rf /root/.cache/pip
 
 # Adjust permissions of copied files
 # -----------------------------------------------------------------------------

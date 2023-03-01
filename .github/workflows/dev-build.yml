@@ -7,7 +7,7 @@ on:
   workflow_dispatch:
 
 env:
-  ARCHS: "linux/amd64,linux/arm64"
+  ARCHS: "linux/amd64,linux/arm64,linux/arm/v7"
 
 jobs:
   buildx:
@@ -24,6 +24,16 @@ jobs:
         uses: docker/setup-buildx-action@v2
         with:
           platforms: ${{ env.ARCHS }}
+          config-inline: |
+            [worker.oci]
+              max-parallelism = 1
+
+      - name: Run Docker on tmpfs
+        uses: JonasAlfredsson/docker-on-tmpfs@add4fac6aec8786a4444371acd2962d920273d56
+        with:
+          tmpfs_size: 6
+          swap_size: 4
+          swap_location: '/mnt/swapfile'
 
       - name: Login to Docker Hub
         uses: docker/login-action@v2
@@ -34,6 +44,7 @@ jobs:
       - name: Build and push docker strongswan
         uses: docker/build-push-action@v4
         with:
-          push: false
-          tags: taknok/strongswan:latest
+          push: true
+          tags: taknok/strongswan:dev
+          provenance: false # https://github.com/docker/buildx/issues/1509
           platforms: ${{ env.ARCHS }}
