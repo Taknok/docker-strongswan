@@ -11,7 +11,11 @@ RUN \
   apt-get -y install \
     build-essential \
     curl \
+    libssl-dev \
     libffi-dev \
+    python3-dev \
+    cargo \
+    pkg-config \
     iptables \
     supervisor \
     bind9 \
