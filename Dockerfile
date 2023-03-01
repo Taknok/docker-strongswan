@@ -32,13 +32,14 @@ COPY target /
 
 # Install python packages
 # -----------------------------------------------------------------------------
-RUN pip install --no-cache-dir -r /docker-startup/10-initial.startup/gp_startup/requirements.txt
+RUN pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.txt
 
 # Clean up
 # -----------------------------------------------------------------------------
 RUN apt-get -y autoremove && \
   apt-get clean && \
-  rm -rf /var/lib/apt/lists/*
+  rm -rf /var/lib/apt/lists/* && \
+  rm -Rf /root/.cache/pip
 
 # Adjust permissions of copied files
 # -----------------------------------------------------------------------------
