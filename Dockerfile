@@ -35,7 +35,7 @@ COPY target /
 
 # Install python packages
 # -----------------------------------------------------------------------------
-RUN pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.txt
+RUN pip install -U pip && pip install -r /docker-startup/10-initial.startup/gp_startup/requirements.txt
 
 # Clean up
 # -----------------------------------------------------------------------------
